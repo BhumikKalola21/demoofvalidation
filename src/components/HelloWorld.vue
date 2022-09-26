@@ -518,4 +518,7 @@ button {
     transform: translateX(0px);
   }
 }
+.errorMessage{
+  color: red;
+}
 </style>
