@@ -155,38 +155,17 @@
                   <template v-if="$v.information.password.$error">
                     <p
                       class="errorMessage"
-                      v-if="!$v.information.password.required " 
+                      v-if="
+                        !$v.information.password.required ||
+                        !$v.information.password.minLength ||
+                        !$v.information.password.containsNumber.required ||
+                        !$v.information.password.containsUppercase.required ||
+                        !$v.information.password.containsLowercase.required ||
+                        !$v.information.password.containsSpecial.required
+                      "
                     >
-                      password is required*
-                    </p>
-                    <p
-                      class="errorMessage"
-                      v-if="!$v.information.password.minLength"
-                    >
-                      Password must be 8 characters.
-                    </p>
-                    <p
-                      class="errorMessage"
-                      v-if="!$v.information.password.containsNumber.required"
-                    >
-                      password is required containsNumber*
-                    </p>
-                    <p
-                      class="errorMessage"
-                      v-if="!$v.information.password.containsUppercase.required">
-                      password is required containsUppercase*
-                    </p>
-                    <p
-                      class="errorMessage"
-                      v-if="!$v.information.password.containsLowercase.required"
-                    >
-                      password is required containsLowercase*
-                    </p>
-                    <p
-                      class="errorMessage"
-                      v-if="!$v.information.password.containsSpecial.required"
-                    >
-                      password is required containsSpecial characters*
+                      password is required which must contain 8 character with
+                      uppercase,lowercase,digit and special characters*
                     </p>
                   </template>
                 </div>
@@ -203,17 +182,23 @@
                   <template v-if="$v.information.confirmPassword.$error">
                     <p
                       class="errorMessage"
-                      v-if="!$v.information.confirmPassword.required"
+                      v-if="
+                        !$v.information.confirmPassword.required ||
+                        !$v.information.confirmPassword.minLength ||
+                        $v.information.confirmPassword !=
+                          $v.information.password
+                      "
                     >
-                      confirmPassword is required*
+                      confirmPassword is required , confirm password not match
+                      with password*
                     </p>
-                    <p
+                    <!-- <p
                       class="errorMessage"
                       v-if="!$v.information.confirmPassword.minLength"
                     >
                       Password must be 8 characters.
-                    </p>
-                    <p
+                    </p> -->
+                    <!-- <p
                       class="errorMessage"
                       v-if="
                         $v.information.confirmPassword !=
@@ -221,14 +206,13 @@
                       "
                     >
                       confirm password not match with password.
-                    </p>
+                    </p> -->
                   </template>
                 </div>
                 <div class="field padding-bottom--24">
                   <button
                     type="button"
                     class="btn btn-primary"
-                    :disabled="$v.$invalid"
                     @click="submitData"
                   >
                     continue
@@ -294,6 +278,7 @@ export default {
     submitData() {
       this.$v.$touch();
       if (!this.$v.$invalid) {
+        alert("You're good to go.");
         console.log("Form submiited successully");
         console.log(this.information);
       }
@@ -518,7 +503,7 @@ button {
     transform: translateX(0px);
   }
 }
-.errorMessage{
+.errorMessage {
   color: red;
 }
 </style>
